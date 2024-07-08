@@ -1,0 +1,8 @@
+﻿<Application
+    x:Class="Huzaifa_Mobile_Care.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Huzaifa_Mobile_Care"
+    StartupUri="LoginWindow.xaml">
+    <Application.Resources />
+</Application>
