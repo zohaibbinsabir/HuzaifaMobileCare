@@ -26,19 +26,23 @@ namespace Huzaifa_Mobile_Care
         public static string ActiveUser { get; set; }
         string connectionString = "Server=DESKTOP-27KC7PD\\SQLEXPRESS;Database=UserManagementDB;Trusted_Connection=True;";
 
+
+
         public LoginWindow()
         {
             InitializeComponent();
             AddComboBoxItems(); // Adding Users into UserList_ComboBox
-            SetLoginWindowHeader(); // Removing User options from Header
+            ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left); // Removing User options from Header
         }
 
-        private void SetLoginWindowHeader()
+        /* Header Function */
+        private void ModifyHeader(Visibility UserHeaderButtonsVisibility, HorizontalAlignment BrandNameHorizontalAlignment)
         {
-            HeaderUserTextButtons.Visibility = Visibility.Collapsed;
-            HeaderUserIconButtons.Visibility = Visibility.Collapsed;
-            BrandName.HorizontalAlignment = HorizontalAlignment.Left;
+            HeaderUserTextButtons.Visibility = UserHeaderButtonsVisibility;
+            HeaderUserIconButtons.Visibility = UserHeaderButtonsVisibility;
+            BrandName.HorizontalAlignment = BrandNameHorizontalAlignment;
         }
+
 
         /* Global Shortcuts */
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -107,6 +111,7 @@ namespace Huzaifa_Mobile_Care
 
         }
 
+
         /* Pin Box */
         private void PinBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
@@ -155,9 +160,7 @@ namespace Huzaifa_Mobile_Care
                 MessageBox.Show("Logged In");
 
                 // Setting Up Header
-                HeaderUserTextButtons.Visibility = Visibility.Visible;
-                HeaderUserIconButtons.Visibility = Visibility.Visible;
-                BrandName.HorizontalAlignment = HorizontalAlignment.Center;
+                ModifyHeader(Visibility.Visible, HorizontalAlignment.Center);
 
                 // Collapsing LoginPage
                 LoginPage.Visibility = Visibility.Collapsed;
@@ -168,6 +171,8 @@ namespace Huzaifa_Mobile_Care
             }
         }
 
+
+        /* Application Buttons */
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -182,9 +187,7 @@ namespace Huzaifa_Mobile_Care
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             // Setting Up Header
-            HeaderUserTextButtons.Visibility = Visibility.Collapsed;
-            HeaderUserIconButtons.Visibility = Visibility.Collapsed;
-            BrandName.HorizontalAlignment = HorizontalAlignment.Left;
+            ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);
 
             // Collapsing LoginPage
             LoginPage.Visibility = Visibility.Visible;
