@@ -20,13 +20,13 @@ namespace Huzaifa_Mobile_Care
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// Ctrl M O and Ctrl M P
     /// </summary>
     public partial class LoginWindow : Window
     {
+        public string ActiveButtonPanelName { get; set; }
         public static string ActiveUser { get; set; }
         string connectionString = "Server=DESKTOP-27KC7PD\\SQLEXPRESS;Database=UserManagementDB;Trusted_Connection=True;";
-
-
 
         public LoginWindow()
         {
@@ -47,6 +47,11 @@ namespace Huzaifa_Mobile_Care
         /* Global Shortcuts */
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (MenuButtons.Visibility == Visibility.Visible)
+            {
+                Buttons_PreviewKeyDown(sender, e);
+                return;
+            }
             // UserList_ComboBox Shortcut
             if (e.Key == Key.Down)
             {
@@ -164,6 +169,10 @@ namespace Huzaifa_Mobile_Care
 
                 // Collapsing LoginPage
                 LoginPage.Visibility = Visibility.Collapsed;
+                // check the below statement
+                ActiveButtonPanelName = MenuButtons.Name.ToString();
+                MenuButtons.Visibility = Visibility.Visible;
+                CustomerPage.Visibility = Visibility.Visible;
             }
             else
             {
@@ -195,6 +204,91 @@ namespace Huzaifa_Mobile_Care
             PinBox.Clear();
             PinBox.IsEnabled = false;
             UserList_ComboBox.SelectedIndex = -1;
+        }
+
+        private Dictionary<Key, string> keyToButtonTagMap = new Dictionary<Key, string>
+        {
+            { Key.NumPad1, "1" },
+            { Key.D1, "1" },
+            { Key.D2, "2" },
+            { Key.NumPad2, "2" },
+            { Key.D3, "3" },
+            { Key.NumPad3, "3" },
+            { Key.D4, "4" },
+            { Key.NumPad4, "4" },
+            { Key.D5, "5" },
+            { Key.NumPad5, "5" },
+            { Key.D6, "6" },
+            { Key.NumPad6, "6" },
+            { Key.D7, "7" },
+            { Key.NumPad7, "7" },
+            { Key.D8, "8" },
+            { Key.NumPad8, "8" },
+            { Key.D9, "9" },
+            { Key.NumPad9, "9" }
+            // Add more mappings as needed
+        };
+
+        private void Buttons_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            Button button = sender as Button;
+            if (keyToButtonTagMap.ContainsKey(e.Key))
+            {
+                string tagToDisable = keyToButtonTagMap[e.Key];
+
+                Panel panel = (Panel)FindName(ActiveButtonPanelName);
+                // Disable the button with the corresponding tag
+                DisableMenuButtonWithTag(tagToDisable, panel);
+            }
+        }
+
+        private Panel GetButtonParent(Button button)
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(button);
+            return parent as Panel;
+
+            //// Traverse up the visual tree until you find the desired container type
+            //while (parent != null && !(parent is StackPanel))
+            //{
+            //    parent = VisualTreeHelper.GetParent(parent);
+            //}
+
+            //// 'parent' now contains the immediate parent container (like StackPanel, Grid, etc.)
+            //Panel parentContainer = parent as Panel;
+
+            //if (parentContainer != null)
+            //{
+            //    return parentContainer;
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Parent container not found.");
+            //}
+            //return null;
+        }
+
+        private void DisableMenuButtonWithTag(string tag, Panel container)
+        {
+            if (int.Parse(tag) > container.Children.Count)
+                return;
+            foreach (Button btn in container.Children.OfType<Button>())
+            {
+                if (btn.Tag?.ToString() == tag)
+                {
+                    btn.IsEnabled = false;
+                }
+                else
+                {
+                    btn.IsEnabled = true;
+                }
+            }
+        }
+
+        private void ApplicationButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            Panel panel = GetButtonParent(btn);
+            DisableMenuButtonWithTag(btn.Tag?.ToString(), panel);
         }
     }
 }

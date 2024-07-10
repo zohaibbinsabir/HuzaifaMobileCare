@@ -118,6 +118,55 @@
             </Setter>
         </Style>
 
+        <!--  Menu Button Style  -->
+        <Style x:Key="ApplicationButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource White}" />
+            <Setter Property="Foreground" Value="{StaticResource Blue}" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Margin" Value="10" />
+
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="border"
+                            Padding="10"
+                            Background="{StaticResource White}"
+                            BorderBrush="{StaticResource Blue}"
+                            BorderThickness="2"
+                            CornerRadius="10">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock
+                                    Name="Serial"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{TemplateBinding Tag}" />
+                                <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" />
+                            </StackPanel>
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource Blue}" />
+                                <Setter Property="Foreground" Value="{StaticResource White}" />
+                                <Setter TargetName="border" Property="BorderThickness" Value="0" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource Yellow}" />
+                                <Setter Property="Foreground" Value="{StaticResource Blue}" />
+                                <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Blue}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
 
 
 
