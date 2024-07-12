@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Huzaifa_Mobile_Care.DL;
 using Huzaifa_Mobile_Care.BL;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace Huzaifa_Mobile_Care
 {
@@ -24,15 +25,37 @@ namespace Huzaifa_Mobile_Care
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public string ActiveButtonPanelName { get; set; }
-        public static string ActiveUser { get; set; }
-        string connectionString = "Server=DESKTOP-27KC7PD\\SQLEXPRESS;Database=UserManagementDB;Trusted_Connection=True;";
+        private Panel PreviousMenuPanel { get; set; }         // To collapse the visibility of the previous Menu Page (LOAD,CASH,BILL,SERVICES,ACCESSORY)
+        private string KeyboardFocusedPanelName { get; set; }        // For switching of Numpad Shortcut Keys for New Page
+        private string ActiveUser { get; set; }     // For getting the active user name
+        private string SelectedButton { get; set; }
+
+        private List<string> SimButtons { get; set; }
+
+        // Connection for the Database
+        private readonly string connectionString = "Server=DESKTOP-27KC7PD\\SQLEXPRESS;Database=UserManagementDB;Trusted_Connection=True;";
 
         public LoginWindow()
         {
             InitializeComponent();
-            AddComboBoxItems(); // Adding Users into UserList_ComboBox
-            ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left); // Removing User options from Header
+            AddComboBoxItems();     // Adding Users into UserList_ComboBox
+            ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);   // Removing User options from Header
+
+            SimButtons = new List<string>()
+            {
+                "Jazz", "Ufone", "Zong", "Telenor"
+            };
+
+            foreach(string s in SimButtons)
+            {
+                Button b = new Button()
+                {
+                    Content = (SimButtons.IndexOf(s)+1).ToString() + " " + s,
+                    Style = (Style)FindResource("SimButton")
+                };
+                LOAD_BUTTONS.Children.Add(b);
+            }
+            
         }
 
         /* Header Function */
@@ -47,11 +70,18 @@ namespace Huzaifa_Mobile_Care
         /* Global Shortcuts */
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (MenuButtons.Visibility == Visibility.Visible)
+            if (CustomerPage.Visibility == Visibility.Visible)
             {
-                Buttons_PreviewKeyDown(sender, e);
+                if (keyToButtonTagMap.ContainsKey(e.Key))
+                {
+                    int tagToDisable = keyToButtonTagMap[e.Key];
+
+                    Panel panel = (Panel)FindName(KeyboardFocusedPanelName);
+                    DisableMenuButton(tagToDisable, panel);      // Disable the button with the corresponding tag
+                }
                 return;
             }
+
             // UserList_ComboBox Shortcut
             if (e.Key == Key.Down)
             {
@@ -162,17 +192,14 @@ namespace Huzaifa_Mobile_Care
 
             if (user != null)
             {
-                MessageBox.Show("Logged In");
-
                 // Setting Up Header
                 ModifyHeader(Visibility.Visible, HorizontalAlignment.Center);
 
-                // Collapsing LoginPage
+                // Visibility Options
                 LoginPage.Visibility = Visibility.Collapsed;
-                // check the below statement
-                ActiveButtonPanelName = MenuButtons.Name.ToString();
-                MenuButtons.Visibility = Visibility.Visible;
+                KeyboardFocusedPanelName = Menu.Name.ToString();
                 CustomerPage.Visibility = Visibility.Visible;
+                Invoice.Visibility = Visibility.Visible;
             }
             else
             {
@@ -198,83 +225,62 @@ namespace Huzaifa_Mobile_Care
             // Setting Up Header
             ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);
 
-            // Collapsing LoginPage
+            // VisibilityOptions
             LoginPage.Visibility = Visibility.Visible;
+            PreviousMenuPanel.Visibility = Visibility.Collapsed;
+            PurchasePage.Visibility = Visibility.Collapsed;
+            CustomerPage.Visibility = Visibility.Collapsed;
+
+            Panel panel = (Panel)FindName("Menu");
+            GetSerialNumbers(panel);
+            Panel panel2 = (Panel)FindName(KeyboardFocusedPanelName);
+            DisableAllChildrenButtons(panel2);
+            
 
             PinBox.Clear();
             PinBox.IsEnabled = false;
             UserList_ComboBox.SelectedIndex = -1;
         }
 
-        private Dictionary<Key, string> keyToButtonTagMap = new Dictionary<Key, string>
+        private readonly Dictionary<Key, int> keyToButtonTagMap = new Dictionary<Key, int>
         {
-            { Key.NumPad1, "1" },
-            { Key.D1, "1" },
-            { Key.D2, "2" },
-            { Key.NumPad2, "2" },
-            { Key.D3, "3" },
-            { Key.NumPad3, "3" },
-            { Key.D4, "4" },
-            { Key.NumPad4, "4" },
-            { Key.D5, "5" },
-            { Key.NumPad5, "5" },
-            { Key.D6, "6" },
-            { Key.NumPad6, "6" },
-            { Key.D7, "7" },
-            { Key.NumPad7, "7" },
-            { Key.D8, "8" },
-            { Key.NumPad8, "8" },
-            { Key.D9, "9" },
-            { Key.NumPad9, "9" }
+            { Key.NumPad1, 1 },
+            { Key.D1, 1 },
+            { Key.D2, 2 },
+            { Key.NumPad2, 2 },
+            { Key.D3, 3 },
+            { Key.NumPad3, 3 },
+            { Key.D4, 4 },
+            { Key.NumPad4, 4 },
+            { Key.D5, 5 },
+            { Key.NumPad5,5 },
+            { Key.D6, 6 },
+            { Key.NumPad6, 6 },
+            { Key.D7, 7},
+            { Key.NumPad7, 7 },
+            { Key.D8, 8 },
+            { Key.NumPad8, 8},
+            { Key.D9, 9 },
+            { Key.NumPad9, 9 }
             // Add more mappings as needed
         };
-
-        private void Buttons_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            Button button = sender as Button;
-            if (keyToButtonTagMap.ContainsKey(e.Key))
-            {
-                string tagToDisable = keyToButtonTagMap[e.Key];
-
-                Panel panel = (Panel)FindName(ActiveButtonPanelName);
-                // Disable the button with the corresponding tag
-                DisableMenuButtonWithTag(tagToDisable, panel);
-            }
-        }
 
         private Panel GetButtonParent(Button button)
         {
             DependencyObject parent = VisualTreeHelper.GetParent(button);
             return parent as Panel;
-
-            //// Traverse up the visual tree until you find the desired container type
-            //while (parent != null && !(parent is StackPanel))
-            //{
-            //    parent = VisualTreeHelper.GetParent(parent);
-            //}
-
-            //// 'parent' now contains the immediate parent container (like StackPanel, Grid, etc.)
-            //Panel parentContainer = parent as Panel;
-
-            //if (parentContainer != null)
-            //{
-            //    return parentContainer;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Parent container not found.");
-            //}
-            //return null;
         }
 
-        private void DisableMenuButtonWithTag(string tag, Panel container)
+        private void DisableMenuButton(int Serial, Panel container)
         {
-            if (int.Parse(tag) > container.Children.Count)
-                return;
+            if (Serial > container.Children.Count) return;
             foreach (Button btn in container.Children.OfType<Button>())
             {
-                if (btn.Tag?.ToString() == tag)
+                if (GetSerialNumber(btn.Content.ToString(), container) == Serial)
                 {
+                    string content = btn.Content?.ToString() ?? string.Empty;
+                    SelectedButton = content.Substring(2);
+                    EnableFunctionality(btn, container);
                     btn.IsEnabled = false;
                 }
                 else
@@ -284,11 +290,93 @@ namespace Huzaifa_Mobile_Care
             }
         }
 
-        private void ApplicationButton_Click(object sender, RoutedEventArgs e)
+        private void SerialButton_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
             Panel panel = GetButtonParent(btn);
-            DisableMenuButtonWithTag(btn.Tag?.ToString(), panel);
+
+            if (KeyboardFocusedPanelName.Contains("_"))
+            {
+                Panel p = (Panel)FindName(KeyboardFocusedPanelName);
+                DisableAllChildrenButtons(p);
+            }
+
+            KeyboardFocusedPanelName = panel.Name;
+            DisableMenuButton(GetSerialNumber(btn.Content.ToString(), panel), panel);
+            EnableFunctionality(btn, panel);
+        }
+
+        private void DisableAllChildrenButtons(Panel panel)
+        {
+            if (panel is null) return;
+            foreach (Button button in panel.Children)
+                button.IsEnabled = true;
+        }
+
+        private int GetSerialNumber(string content, Panel panel)
+        {
+            if (string.IsNullOrEmpty(content))
+                return 0; // Handle empty or null strings
+
+            // Iterate through the panel's children
+            for (int i = 0; i < panel.Children.Count; i++)
+            {
+                if (panel.Children[i] is Button button && button.Content?.ToString() == content)
+                {
+                    return i + 1; // Return the 1-based index
+                }
+            }
+            return 0; // Return 0 if no matching button is found
+        }
+
+        private void GetSerialNumbers(Panel panel)
+        {
+            foreach (Button button in panel.Children)
+            {
+                button.IsEnabled = true;
+                button.Content = GetSerialNumber(button.Content.ToString(), Menu) + " " + button.Content.ToString();
+            }
+        }
+
+        private void RemoveSerialNumbers(Panel panel)
+        {
+            foreach (var child in panel.Children)
+            {
+                if (child is Button button)
+                {
+                    string content = button.Content?.ToString() ?? string.Empty;
+                    if (content.Length > 2 && int.TryParse(content[0].ToString(), out _))
+                    {
+                        button.Content = content.Substring(2);
+                    }
+                }
+            }
+        }
+
+        private void EnableFunctionality(Button button, Panel panel)
+        {
+            if (panel.Name == "Menu")
+            {
+                RemoveSerialNumbers(panel);
+                string name = button.Content.ToString();
+                Panel panel1 = (Panel)FindName(name);
+
+                // If Conditions
+                if (PreviousMenuPanel != null) PreviousMenuPanel.Visibility = Visibility.Collapsed;
+                if (panel1 is null) return;
+
+                if (panel1.Name == "LOAD")
+                    KeyboardFocusedPanelName = panel1.Name + "_BUTTONS";
+
+                // Visibility Options
+                Invoice.Visibility = Visibility.Collapsed;
+                PurchasePage.Visibility = Visibility.Visible;
+                panel1.Visibility = Visibility.Visible;
+                
+                // Updating Previous Menu Panel
+                PreviousMenuPanel = panel1;
+            }
+            else return;
         }
     }
 }

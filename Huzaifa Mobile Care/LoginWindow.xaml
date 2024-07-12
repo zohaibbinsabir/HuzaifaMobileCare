@@ -18,9 +18,18 @@
             x:Key="MenuButton"
             BasedOn="{StaticResource ApplicationButton}"
             TargetType="Button">
-            <Setter Property="Width" Value="160" />
             <Setter Property="FontFamily" Value="Norwester" />
-            <EventSetter Event="Click" Handler="ApplicationButton_Click" />
+            <EventSetter Event="Click" Handler="SerialButton_Click" />
+        </Style>
+        <Style
+            x:Key="SimButton"
+            BasedOn="{StaticResource ApplicationButton}"
+            TargetType="Button">
+            <Setter Property="FontFamily" Value="Aoboshi One" />
+            <Setter Property="Width" Value="350" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="BorderThickness" Value="1" />
+            <EventSetter Event="Click" Handler="SerialButton_Click" />
         </Style>
     </Window.Resources>
 
@@ -115,7 +124,7 @@
             VerticalAlignment="Center"
             Background="{StaticResource Blue}"
             CornerRadius="10"
-            Visibility="Collapsed">
+            Visibility="Visible">
 
             <StackPanel>
 
@@ -201,15 +210,12 @@
             Name="CustomerPage"
             Grid.Row="1"
             Margin="10"
-            Visibility="Visible">
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Grid
-                Name="MenuButtons"
-                Grid.Column="0"
-                Visibility="Visible">
+            <Grid Name="Menu" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
@@ -219,232 +225,104 @@
                 </Grid.RowDefinitions>
                 <Button
                     Grid.Row="0"
-                    Content="LOAD"
-                    Style="{StaticResource MenuButton}"
-                    Tag="1" />
+                    Content="1 LOAD"
+                    Style="{StaticResource MenuButton}" />
                 <Button
                     Grid.Row="1"
-                    Content="CASH"
-                    Style="{StaticResource MenuButton}"
-                    Tag="2" />
+                    Content="2 CASH"
+                    Style="{StaticResource MenuButton}" />
                 <Button
                     Grid.Row="2"
-                    Content="BILL"
-                    Style="{StaticResource MenuButton}"
-                    Tag="3" />
+                    Content="3 BILL"
+                    Style="{StaticResource MenuButton}" />
                 <Button
                     Grid.Row="3"
-                    Content="SERVICES"
-                    Style="{StaticResource MenuButton}"
-                    Tag="4" />
+                    Content="4 SERVICES"
+                    Style="{StaticResource MenuButton}" />
                 <Button
                     Grid.Row="4"
-                    Content="ACCESSORY"
-                    Style="{StaticResource MenuButton}"
-                    Tag="5" />
+                    Content="5 ACCESSORY"
+                    Style="{StaticResource MenuButton}" />
             </Grid>
-            <Grid
+
+            <!--  Invoice Page  -->
+            <Border
+                Name="Invoice"
                 Grid.Column="1"
                 Margin="10"
-                Background="{StaticResource Blue}">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="80" />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="10">
+                Background="{StaticResource Blue}"
+                Visibility="Collapsed" />
+
+            <Border
+                Name="PurchasePage"
+                Grid.Column="1"
+                Margin="10"
+                Background="{StaticResource Blue}"
+                CornerRadius="5"
+                Visibility="Collapsed">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <RowDefinition Height="180" />
-                        <RowDefinition Height="110" />
+                        <RowDefinition Height="80" />
                     </Grid.RowDefinitions>
-                    <Border
+
+                    <Grid
+                        Name="LOAD"
+                        Grid.Row="0"
+                        Margin="10"
+                        Background="{StaticResource Blue}"
+                        Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="180" />
+                            <RowDefinition Height="110" />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Margin="10"
+                            Background="{StaticResource White}"
+                            CornerRadius="5">
+                            <WrapPanel Name="LOAD_BUTTONS" Margin="10" />
+                        </Border>
+                    </Grid>
+
+                    <StackPanel
+                        Name="CASH"
+                        Grid.Row="0"
+                        Background="{StaticResource Blue}"
+                        Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="CASH" />
+                    </StackPanel>
+                    <StackPanel
+                        Name="BILL"
+                        Grid.Row="0"
+                        Background="{StaticResource Blue}"
+                        Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="BILL" />
+                    </StackPanel>
+                    <StackPanel
+                        Name="SERVICES"
+                        Grid.Row="0"
+                        Background="{StaticResource Blue}"
+                        Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="SERICES" />
+                    </StackPanel>
+                    <StackPanel
+                        Name="ACCESSORY"
+                        Grid.Row="0"
+                        Background="{StaticResource Blue}"
+                        Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="ACCESSORY" />
+                    </StackPanel>
+
+                    <Button
                         Grid.Row="1"
-                        Margin="10"
-                        Background="{StaticResource White}"
-                        CornerRadius="5">
-                        <Grid Margin="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-
-                            <!--  Default Amount Buttons  -->
-                            <Grid Grid.Row="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Button
-                                    Grid.Column="0"
-                                    Margin="10"
-                                    Content="100"
-                                    Style="{StaticResource DefaultButtonStyle}" />
-                                <Button
-                                    Grid.Column="1"
-                                    Margin="10"
-                                    Content="200"
-                                    Style="{StaticResource DefaultButtonStyle}" />
-                                <Button
-                                    Grid.Column="2"
-                                    Margin="10"
-                                    Content="300"
-                                    Style="{StaticResource DefaultButtonStyle}" />
-                                <Button
-                                    Grid.Column="3"
-                                    Margin="10"
-                                    Content="500"
-                                    Style="{StaticResource DefaultButtonStyle}" />
-                                <Button
-                                    Grid.Column="4"
-                                    Margin="10"
-                                    Content="1000"
-                                    Style="{StaticResource DefaultButtonStyle}" />
-                            </Grid>
-
-                            <Grid Grid.Row="1" Background="White">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="70" />
-                                    <ColumnDefinition Width="70" />
-                                </Grid.ColumnDefinitions>
-                                <Border
-                                    Margin="10"
-                                    BorderBrush="{StaticResource Blue}"
-                                    BorderThickness="1"
-                                    CornerRadius="5">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Background="{StaticResource Blue}" CornerRadius="5,0,0,5">
-                                            <TextBlock
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontFamily="Aoboshi One"
-                                                FontSize="24"
-                                                Foreground="{StaticResource White}"
-                                                Text="Enter Load Amount" />
-                                        </Border>
-                                        <TextBox
-                                            Name="loadAmountTextBox"
-                                            Grid.Column="1"
-                                            Margin="0,0,5,0"
-                                            HorizontalContentAlignment="Center"
-                                            VerticalContentAlignment="Center"
-                                            BorderThickness="0"
-                                            FontSize="24"
-                                            Text="0" />
-                                    </Grid>
-                                </Border>
-                                <Button
-                                    Grid.Column="1"
-                                    Margin="10"
-                                    Content="-"
-                                    Style="{StaticResource DefaultButtonStyle}" />
-                                <Button
-                                    Grid.Column="2"
-                                    Margin="10"
-                                    Content="+"
-                                    Style="{StaticResource DefaultButtonStyle}" />
-                            </Grid>
-
-                        </Grid>
-                    </Border>
-                    <Border
-                        Grid.Row="2"
-                        Margin="10"
-                        Background="{StaticResource White}"
-                        CornerRadius="5">
-                        <Grid Margin="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Border
-                                Grid.Column="0"
-                                Margin="10"
-                                Background="White"
-                                BorderBrush="{StaticResource Blue}"
-                                BorderThickness="1"
-                                CornerRadius="25">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border
-                                        BorderBrush="{StaticResource Blue}"
-                                        BorderThickness="0,0,1,0"
-                                        CornerRadius="25,0,0,25">
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontFamily="Anonymous Pro"
-                                            FontSize="24"
-                                            Text="Margin" />
-                                    </Border>
-                                    <!--  PreviewTextInput="NumerictBox_PreviewTextInput"  -->
-                                    <TextBox
-                                        Grid.Column="1"
-                                        Margin="0,0,25,0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        BorderThickness="0"
-                                        FontSize="24"
-                                        Text="0" />
-                                </Grid>
-                            </Border>
-                            <Border
-                                Grid.Column="1"
-                                Margin="10"
-                                Background="White"
-                                BorderBrush="{StaticResource Blue}"
-                                BorderThickness="1"
-                                CornerRadius="25">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border
-                                        BorderBrush="{StaticResource Blue}"
-                                        BorderThickness="0,0,1,0"
-                                        CornerRadius="25,0,0,25">
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontFamily="Anonymous Pro"
-                                            FontSize="24"
-                                            Text="Profit" />
-                                    </Border>
-                                    <!--  PreviewTextInput="NumerictBox_PreviewTextInput"  -->
-                                    <TextBox
-                                        Grid.Column="1"
-                                        Margin="0,0,25,0"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        BorderThickness="0"
-                                        FontSize="24"
-                                        Text="0" />
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </Border>
+                        Margin="20,10,20,20"
+                        Content="Enter"
+                        IsEnabled="False"
+                        Style="{StaticResource SubmitButton}" />
                 </Grid>
-                <Button
-                    Grid.Row="1"
-                    Margin="20,10,20,20"
-                    Content="Enter"
-                    IsEnabled="False"
-                    Style="{StaticResource SubmitButton}" />
-            </Grid>
+            </Border>
+
         </Grid>
     </Grid>
 
