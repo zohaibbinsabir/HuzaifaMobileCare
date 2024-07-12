@@ -1,6 +1,6 @@
 # Huzaifa Mobile Care
 
-![Project Logo](https://example.com/logo.png)
+![Project Logo]([https://example.com/logo.png](https://drive.google.com/file/d/17q3nF4kAf3LwiYvnOAeFCTCbBX5N0YKM/view?usp=drive_link))
 
 A brief description of what this project does and who it's for.
 
