@@ -14,3 +14,6 @@ D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobil
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.exe
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.pdb
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\App.baml
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\Header.g.cs
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\Header.baml

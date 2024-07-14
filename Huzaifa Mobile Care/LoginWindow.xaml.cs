@@ -26,13 +26,13 @@ namespace Huzaifa_Mobile_Care
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private Panel PreviousMenuPanel { get; set; }         // To collapse the visibility of the previous Menu Page (LOAD,CASH,BILL,SERVICES,ACCESSORY)
-        private string KeyboardFocusedPanelName { get; set; }        // For switching of Numpad Shortcut Keys for New Page
+        public Panel PreviousMenuPanel { get; set; }         // To collapse the visibility of the previous Menu Page (LOAD,CASH,BILL,SERVICES,ACCESSORY)
+        public Panel KeyboardFocusedPanel { get; set; }        // For switching of Numpad Shortcut Keys for New Page
         private string ActiveUser { get; set; }     // For getting the active user name
         private string SelectedButton { get; set; }
         private int EnteredAmount { get; set; }
         private string FocusedTBoxName { get; set; }
-        private InvoiceObject billItem { get; set; }
+        private InvoiceItem billItem { get; set; }
 
         private List<string> SimButtons { get; set; }
 
@@ -43,7 +43,7 @@ namespace Huzaifa_Mobile_Care
         {
             InitializeComponent();
             AddComboBoxItems();     // Adding Users into UserList_ComboBox
-            ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);   // Removing User options from Header
+            MyHeader.ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);   // Removing User options from Header
             SimButtons = new List<string>() { };
             getAllSims();
 
@@ -64,15 +64,6 @@ namespace Huzaifa_Mobile_Care
 
         }
 
-        /* Header Function */
-        private void ModifyHeader(Visibility UserHeaderButtonsVisibility, HorizontalAlignment BrandNameHorizontalAlignment)
-        {
-            HeaderUserTextButtons.Visibility = UserHeaderButtonsVisibility;
-            HeaderUserIconButtons.Visibility = UserHeaderButtonsVisibility;
-            BrandName.HorizontalAlignment = BrandNameHorizontalAlignment;
-        }
-
-
         /* Global Shortcuts */
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -91,9 +82,7 @@ namespace Huzaifa_Mobile_Care
                 if (keyToButtonTagMap.ContainsKey(e.Key))
                 {
                     int tagToDisable = keyToButtonTagMap[e.Key];
-
-                    Panel panel = (Panel)FindName(KeyboardFocusedPanelName);
-                    DisableMenuButton(tagToDisable, panel);      // Disable the button with the corresponding tag
+                    DisableMenuButton(tagToDisable, KeyboardFocusedPanel);      // Disable the button with the corresponding tag
                 }
                 else if (e.Key == Key.OemPlus)
                 {
@@ -260,15 +249,25 @@ namespace Huzaifa_Mobile_Care
             if (user != null)
             {
                 // Setting Up Header
-                ModifyHeader(Visibility.Visible, HorizontalAlignment.Center);
+                MyHeader.ModifyHeader(Visibility.Visible, HorizontalAlignment.Center);
+
+                // Initializing billItem
+                billItem = new InvoiceItem();
 
                 // Visibility Options
                 LoginPage.Visibility = Visibility.Collapsed;
-                KeyboardFocusedPanelName = Menu.Name.ToString();
                 CustomerPage.Visibility = Visibility.Visible;
-                billItem = new InvoiceObject();
                 Invoice.Visibility = Visibility.Visible;
+
+                // Setting Default Values for Login Page Elements
+                UserList_ComboBox.SelectedIndex = -1;
+                PinBox.Clear();
+                PinBox.IsEnabled = false;
                 LoginButton.IsEnabled = false;
+
+                // Reset All Menu Buttons To Default State
+                KeyboardFocusedPanel = (Panel)FindName("Menu");
+                ResetPanelButtons(KeyboardFocusedPanel);
             }
             else
             {
@@ -278,38 +277,7 @@ namespace Huzaifa_Mobile_Care
 
 
         /* Application Buttons */
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-
-        }
-
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            // Setting Up Header
-            ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);
-
-            // VisibilityOptions
-            LoginPage.Visibility = Visibility.Visible;
-            PreviousMenuPanel.Visibility = Visibility.Collapsed;
-            PurchasePage.Visibility = Visibility.Collapsed;
-            CustomerPage.Visibility = Visibility.Collapsed;
-
-            Panel panel = (Panel)FindName("Menu");
-            GetSerialNumbers(panel);
-            Panel panel2 = (Panel)FindName(KeyboardFocusedPanelName);
-            DisableAllChildrenButtons(panel2);
-
-
-            PinBox.Clear();
-            PinBox.IsEnabled = false;
-            UserList_ComboBox.SelectedIndex = -1;
-        }
+        
 
         private readonly Dictionary<Key, int> keyToButtonTagMap = new Dictionary<Key, int>
         {
@@ -370,18 +338,17 @@ namespace Huzaifa_Mobile_Care
             Button btn = sender as Button;
             Panel panel = GetButtonParent(btn);
 
-            if (KeyboardFocusedPanelName.Contains("_"))
+            if (KeyboardFocusedPanel.Name.Contains("_"))
             {
-                Panel p = (Panel)FindName(KeyboardFocusedPanelName);
-                DisableAllChildrenButtons(p);
+                Panel p = (Panel)FindName(KeyboardFocusedPanel.Name);
+                ResetPanelButtons(p);
             }
 
-            KeyboardFocusedPanelName = panel.Name;
+            //KeyboardFocusedPanel.Name = panel.Name;
             DisableMenuButton(GetSerialNumber(btn.Content.ToString(), panel), panel);
-            EnableFunctionality(btn, panel);
         }
 
-        private void DisableAllChildrenButtons(Panel panel)
+        public void ResetPanelButtons(Panel panel)
         {
             if (panel is null) return;
             foreach (Button button in panel.Children)
@@ -390,21 +357,20 @@ namespace Huzaifa_Mobile_Care
 
         private int GetSerialNumber(string content, Panel panel)
         {
-            if (string.IsNullOrEmpty(content))
-                return 0; // Handle empty or null strings
+            if (string.IsNullOrEmpty(content)) return 0;
 
-            // Iterate through the panel's children
             for (int i = 0; i < panel.Children.Count; i++)
             {
                 if (panel.Children[i] is Button button && button.Content?.ToString() == content)
                 {
-                    return i + 1; // Return the 1-based index
+                    return i + 1;
                 }
             }
-            return 0; // Return 0 if no matching button is found
+
+            return 0;
         }
 
-        private void GetSerialNumbers(Panel panel)
+        public void GetSerialNumbers(Panel panel)
         {
             foreach (Button button in panel.Children)
             {
@@ -433,6 +399,7 @@ namespace Huzaifa_Mobile_Care
             if (panel.Name == "Menu")
             {
                 RemoveSerialNumbers(panel);
+
                 string name = button.Content.ToString();
                 Panel panel1 = (Panel)FindName(name);
 
@@ -441,51 +408,12 @@ namespace Huzaifa_Mobile_Care
                 if (panel1 is null) return;
 
                 if (panel1.Name == "LOAD")
-                    KeyboardFocusedPanelName = panel1.Name + "_BUTTONS";
-
-                if (billItem != null)
                 {
-                    billItem.Name = null;
-                    billItem.Price = 0;
-                    billItem.Cost = 0;
-                    billItem.Margin = 0;
-
-                    var v = this.FindElementsWithNameContains("AMOUNT");
-
-                    foreach (var element in v)
-                    {
-                        // Do something with the elements found
-                        // For example:
-                        if (element is TextBox textBox)
-                        {
-                            textBox.Text = "0";
-                        }
-                    }
-
-                    var v1 = this.FindElementsWithNameContains("MARGIN");
-
-                    foreach (var element in v1)
-                    {
-                        // Do something with the elements found
-                        // For example:
-                        if (element is TextBox textBox)
-                        {
-                            textBox.Text = "0";
-                        }
-                    }
-
-                    var v2 = this.FindElementsWithNameContains("COST");
-
-                    foreach (var element in v2)
-                    {
-                        // Do something with the elements found
-                        // For example:
-                        if (element is TextBox textBox)
-                        {
-                            textBox.Text = "0";
-                        }
-                    }
+                    KeyboardFocusedPanel = (Panel)FindName(panel1.Name + "_BUTTONS");
                 }
+
+
+                ResetBillItem();
 
                 // Visibility Options
                 Invoice.Visibility = Visibility.Collapsed;
@@ -496,6 +424,53 @@ namespace Huzaifa_Mobile_Care
                 PreviousMenuPanel = panel1;
             }
             else return;
+        }
+
+        public void ResetBillItem()
+        {
+            if (billItem != null)
+            {
+                billItem.Name = null;
+                billItem.Price = 0;
+                billItem.Cost = 0;
+                billItem.Margin = 0;
+
+                var v = this.FindElementsWithNameContains("AMOUNT");
+
+                foreach (var element in v)
+                {
+                    // Do something with the elements found
+                    // For example:
+                    if (element is TextBox textBox)
+                    {
+                        textBox.Text = "0";
+                    }
+                }
+
+                var v1 = this.FindElementsWithNameContains("MARGIN");
+
+                foreach (var element in v1)
+                {
+                    // Do something with the elements found
+                    // For example:
+                    if (element is TextBox textBox)
+                    {
+                        textBox.Text = "0";
+                    }
+                }
+
+                var v2 = this.FindElementsWithNameContains("COST");
+
+                foreach (var element in v2)
+                {
+                    // Do something with the elements found
+                    // For example:
+                    if (element is TextBox textBox)
+                    {
+                        textBox.Text = "0";
+                    }
+                }
+            }
         }
 
         private void AmountButton_Click(object sender, RoutedEventArgs e)
@@ -611,22 +586,6 @@ namespace Huzaifa_Mobile_Care
                     }
                 }
             }
-        }
-    }
-
-    public class InvoiceObject
-    {
-        public string Name { get; set; }
-        public int Price { get; set; }
-        public int Cost { get; set; }
-        public int Margin { get; set; }
-
-        public InvoiceObject()
-        {
-            Name = null;
-            Price = 0;
-            Cost = 0;
-            Margin = 0;
         }
     }
 

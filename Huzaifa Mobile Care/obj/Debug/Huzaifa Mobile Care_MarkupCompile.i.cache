@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\App.xaml
-1886234944
+21803510670
 
-8-1926657949
+101511506768
 13-1505183044
-LoginWindow.xaml;
+GUI\UserControls\Header.xaml;LoginWindow.xaml;
 
-False
+True
 

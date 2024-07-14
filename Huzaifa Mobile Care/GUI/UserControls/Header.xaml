@@ -1,0 +1,79 @@
+﻿<UserControl
+    x:Class="Huzaifa_Mobile_Care.GUI.UserControls.Header"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Huzaifa_Mobile_Care.GUI.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="50"
+    d:DesignWidth="1024"
+    mc:Ignorable="d">
+    <DockPanel Background="{StaticResource Blue}" LastChildFill="True">
+
+        <!--  Left Buttons  -->
+        <DockPanel
+            Name="HeaderUserTextButtons"
+            DockPanel.Dock="Left"
+            LastChildFill="False"
+            Visibility="Visible">
+            <Button Content="Home" Style="{StaticResource DefaultButtonStyle}" />
+            <Button Content="Stock" Style="{StaticResource DefaultButtonStyle}" />
+            <Button Content="Sales" Style="{StaticResource DefaultButtonStyle}" />
+        </DockPanel>
+
+        <!--  Right Buttons  -->
+        <DockPanel DockPanel.Dock="Right" LastChildFill="False">
+
+            <Button
+                x:Name="CloseButton"
+                Click="CloseButton_Click"
+                Content="&#xE10A;"
+                DockPanel.Dock="Right"
+                Style="{StaticResource IconButtonRedHowerStyle}"
+                ToolTip="Close" />
+            <Button
+                x:Name="MinimizeButton"
+                Click="MinimizeButton_Click"
+                Content="&#xE108;"
+                DockPanel.Dock="Right"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTip="Minimize" />
+
+            <!--  User Buttons  -->
+            <StackPanel
+                x:Name="HeaderUserIconButtons"
+                Orientation="Horizontal"
+                Visibility="Visible">
+
+                <Button
+                    Content="&#xE115;"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTip="Settings" />
+                <Button
+                    Name="Logout"
+                    Click="Logout_Click"
+                    Content="&#xE77B;"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource IconButtonRedHowerStyle}"
+                    ToolTip="Logout" />
+
+                <Border
+                    Width="1"
+                    Height="30"
+                    Background="{StaticResource White}"
+                    DockPanel.Dock="Right" />
+            </StackPanel>
+
+        </DockPanel>
+
+        <!--  Header Brand Name  -->
+        <TextBlock
+            x:Name="BrandName"
+            Margin="15,0"
+            DockPanel.Dock="Bottom"
+            Style="{StaticResource DefaultTextBlockStyle}"
+            Text="HUZAIFA MOBILE CENTER" />
+
+    </DockPanel>
+</UserControl>
