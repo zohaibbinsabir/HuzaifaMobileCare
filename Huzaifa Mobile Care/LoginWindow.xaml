@@ -31,6 +31,36 @@
             <Setter Property="BorderThickness" Value="1" />
             <EventSetter Event="Click" Handler="SerialButton_Click" />
         </Style>
+
+
+        <Style x:Key="NumericTBox" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Text" Value="0" />
+            <EventSetter Event="GotFocus" Handler="NUMERIC_TBOX_GotFocus" />
+            <EventSetter Event="LostFocus" Handler="NUMERIC_TBOX_LostFocus" />
+            <EventSetter Event="PreviewKeyDown" Handler="NUMERIC_TBOX_PreviewKeyDown" />
+            <EventSetter Event="PreviewTextInput" Handler="NUMERIC_TBOX_PreviewTextInput" />
+            <EventSetter Event="TextChanged" Handler="NUMERIC_TBOX_TextChanged" />
+
+        </Style>
+
+        <Style
+            x:Key="NumericTBox2"
+            BasedOn="{StaticResource NumericTBox}"
+            TargetType="TextBox">
+            <Setter Property="Effect" Value="{StaticResource BlurredEffect}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Effect" Value="{StaticResource NoBlurEffect}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
 
     <!--
@@ -283,6 +313,199 @@
                             CornerRadius="5">
                             <WrapPanel Name="LOAD_BUTTONS" Margin="10" />
                         </Border>
+
+                        <Border
+                            Grid.Row="1"
+                            Margin="10"
+                            Background="{StaticResource White}"
+                            CornerRadius="5">
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <!--  Default Amount Buttons  -->
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button
+                                        Grid.Column="0"
+                                        Margin="10"
+                                        Click="AmountButton_Click"
+                                        Content="100"
+                                        Style="{StaticResource AmountButton}" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Margin="10"
+                                        Click="AmountButton_Click"
+                                        Content="200"
+                                        Style="{StaticResource AmountButton}" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Margin="10"
+                                        Click="AmountButton_Click"
+                                        Content="300"
+                                        Style="{StaticResource AmountButton}" />
+                                    <Button
+                                        Grid.Column="3"
+                                        Margin="10"
+                                        Click="AmountButton_Click"
+                                        Content="500"
+                                        Style="{StaticResource AmountButton}" />
+                                    <Button
+                                        Grid.Column="4"
+                                        Margin="10"
+                                        Click="AmountButton_Click"
+                                        Content="1000"
+                                        Style="{StaticResource AmountButton}" />
+                                </Grid>
+
+                                <Grid Grid.Row="1" Background="White">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition Width="70" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border
+                                        Margin="10"
+                                        BorderBrush="{StaticResource Blue}"
+                                        BorderThickness="1"
+                                        CornerRadius="5">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Border
+                                                Name="LOAD_AMOUNT_BORDER"
+                                                Background="{StaticResource Blue}"
+                                                BorderBrush="{StaticResource Blue}"
+                                                BorderThickness="0,0,1,0"
+                                                CornerRadius="5,0,0,5"
+                                                Tag="NumericTBox_Border">
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="Aoboshi One"
+                                                    FontSize="24"
+                                                    Foreground="{StaticResource White}"
+                                                    Text="Load Amount" />
+                                            </Border>
+                                            <TextBox
+                                                Name="LOAD_AMOUNT_TBOX"
+                                                Grid.Column="1"
+                                                Width="auto"
+                                                Margin="0,0,5,0"
+                                                Style="{StaticResource NumericTBox}" />
+                                        </Grid>
+                                    </Border>
+                                    <Button
+                                        Name="minusButton"
+                                        Grid.Column="1"
+                                        Margin="10"
+                                        Click="minusButton_Click"
+                                        Content="-"
+                                        Style="{StaticResource AmountIconButton}" />
+                                    <Button
+                                        Name="plusButton"
+                                        Grid.Column="2"
+                                        Margin="10"
+                                        Click="plusButton_Click"
+                                        Content="+"
+                                        Style="{StaticResource AmountIconButton}" />
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <Border
+                            Grid.Row="2"
+                            Margin="10"
+                            Background="{StaticResource White}"
+                            CornerRadius="5">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border
+                                    Grid.Column="0"
+                                    Margin="10"
+                                    Background="White"
+                                    BorderBrush="{StaticResource Blue}"
+                                    BorderThickness="1"
+                                    CornerRadius="25">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                            Name="LOAD_COST_BORDER"
+                                            Background="{StaticResource White}"
+                                            BorderBrush="{StaticResource Blue}"
+                                            BorderThickness="0,0,1,0"
+                                            CornerRadius="25,0,0,25"
+                                            Tag="NumericTBox_Border">
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontFamily="Anonymous Pro"
+                                                FontSize="24"
+                                                Text="Cost" />
+                                        </Border>
+                                        <!--  PreviewTextInput="NumerictBox_PreviewTextInput"  -->
+                                        <TextBox
+                                            Name="LOAD_COST_TBOX"
+                                            Grid.Column="1"
+                                            Margin="0,0,25,0"
+                                            Style="{StaticResource NumericTBox2}" />
+                                    </Grid>
+                                </Border>
+                                <Border
+                                    Grid.Column="1"
+                                    Margin="10"
+                                    Background="White"
+                                    BorderBrush="{StaticResource Blue}"
+                                    BorderThickness="1"
+                                    CornerRadius="25">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                            Name="LOAD_MARGIN_BORDER"
+                                            Background="{StaticResource White}"
+                                            BorderBrush="{StaticResource Blue}"
+                                            BorderThickness="0,0,1,0"
+                                            CornerRadius="25,0,0,25"
+                                            Tag="NumericTBox_Border">
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontFamily="Anonymous Pro"
+                                                FontSize="24"
+                                                Text="Margin" />
+                                        </Border>
+                                        <!--  PreviewTextInput="NumerictBox_PreviewTextInput"  -->
+                                        <TextBox
+                                            Name="LOAD_MARGIN_TBOX"
+                                            Grid.Column="1"
+                                            Margin="0,0,25,0"
+                                            Style="{StaticResource NumericTBox2}" />
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Border>
                     </Grid>
 
                     <StackPanel
@@ -315,8 +538,10 @@
                     </StackPanel>
 
                     <Button
+                        Name="InvoiceEntryButton"
                         Grid.Row="1"
-                        Margin="20,10,20,20"
+                        Margin="20,0,20,20"
+                        Click="InvoiceEntryButton_Click"
                         Content="Enter"
                         IsEnabled="False"
                         Style="{StaticResource SubmitButton}" />

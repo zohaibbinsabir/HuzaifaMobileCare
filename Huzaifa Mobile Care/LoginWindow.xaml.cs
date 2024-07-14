@@ -16,6 +16,7 @@ using Huzaifa_Mobile_Care.DL;
 using Huzaifa_Mobile_Care.BL;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 
 namespace Huzaifa_Mobile_Care
 {
@@ -29,6 +30,9 @@ namespace Huzaifa_Mobile_Care
         private string KeyboardFocusedPanelName { get; set; }        // For switching of Numpad Shortcut Keys for New Page
         private string ActiveUser { get; set; }     // For getting the active user name
         private string SelectedButton { get; set; }
+        private int EnteredAmount { get; set; }
+        private string FocusedTBoxName { get; set; }
+        private InvoiceObject billItem { get; set; }
 
         private List<string> SimButtons { get; set; }
 
@@ -40,22 +44,24 @@ namespace Huzaifa_Mobile_Care
             InitializeComponent();
             AddComboBoxItems();     // Adding Users into UserList_ComboBox
             ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);   // Removing User options from Header
+            SimButtons = new List<string>() { };
+            getAllSims();
 
-            SimButtons = new List<string>()
-            {
-                "Jazz", "Ufone", "Zong", "Telenor"
-            };
+            //SimButtons = new List<string>()
+            //{
+            //    "Jazz", "Ufone", "Zong", "Telenor"
+            //};
 
-            foreach(string s in SimButtons)
+            foreach (string s in SimButtons)
             {
                 Button b = new Button()
                 {
-                    Content = (SimButtons.IndexOf(s)+1).ToString() + " " + s,
+                    Content = (SimButtons.IndexOf(s) + 1).ToString() + " " + s,
                     Style = (Style)FindResource("SimButton")
                 };
                 LOAD_BUTTONS.Children.Add(b);
             }
-            
+
         }
 
         /* Header Function */
@@ -70,6 +76,16 @@ namespace Huzaifa_Mobile_Care
         /* Global Shortcuts */
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (InvoiceEntryButton.IsEnabled && e.Key == Key.Enter)
+            {
+                MessageBox.Show($"{billItem.Name}, {billItem.Price}, {billItem.Margin}, {billItem.Cost}");
+            }
+
+            if (IsAnyTextBoxFocused())
+            {
+                return;
+            }
+
             if (CustomerPage.Visibility == Visibility.Visible)
             {
                 if (keyToButtonTagMap.ContainsKey(e.Key))
@@ -78,6 +94,39 @@ namespace Huzaifa_Mobile_Care
 
                     Panel panel = (Panel)FindName(KeyboardFocusedPanelName);
                     DisableMenuButton(tagToDisable, panel);      // Disable the button with the corresponding tag
+                }
+                else if (e.Key == Key.OemPlus)
+                {
+                    var v = this.FindElementsWithNameContains("AMOUNT");
+
+                    foreach (var element in v)
+                    {
+                        // Do something with the elements found
+                        // For example:
+                        if (element is TextBox textBox)
+                        {
+                            if (textBox.Text == "") textBox.Text = "0";
+                            textBox.Text = (int.Parse(textBox.Text) + 5).ToString();
+                        }
+                    }
+
+
+                }
+                else if (e.Key == Key.OemMinus)
+                {
+                    var v = this.FindElementsWithNameContains("AMOUNT");
+
+                    foreach (var element in v)
+                    {
+                        // Do something with the elements found
+                        // For example:
+                        if (element is TextBox textBox)
+                        {
+                            if (textBox.Text == "") textBox.Text = "0";
+                            if (int.Parse(textBox.Text) < 5) return;
+                            textBox.Text = (int.Parse(textBox.Text) - 5).ToString();
+                        }
+                    }
                 }
                 return;
             }
@@ -105,6 +154,7 @@ namespace Huzaifa_Mobile_Care
             {
                 LoginButton_Click(LoginButton, null);
             }
+
         }
 
 
@@ -144,6 +194,23 @@ namespace Huzaifa_Mobile_Care
                 }
             }
 
+        }
+
+        public void getAllSims()
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            string query = "SELECT * FROM SIMs";
+            SqlCommand command = new SqlCommand(query, connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader.GetDecimal(2) > 99)
+                {
+                    SimButtons.Add(reader.GetString(1));
+                }
+            }
+            connection.Close();
         }
 
 
@@ -199,7 +266,9 @@ namespace Huzaifa_Mobile_Care
                 LoginPage.Visibility = Visibility.Collapsed;
                 KeyboardFocusedPanelName = Menu.Name.ToString();
                 CustomerPage.Visibility = Visibility.Visible;
+                billItem = new InvoiceObject();
                 Invoice.Visibility = Visibility.Visible;
+                LoginButton.IsEnabled = false;
             }
             else
             {
@@ -235,7 +304,7 @@ namespace Huzaifa_Mobile_Care
             GetSerialNumbers(panel);
             Panel panel2 = (Panel)FindName(KeyboardFocusedPanelName);
             DisableAllChildrenButtons(panel2);
-            
+
 
             PinBox.Clear();
             PinBox.IsEnabled = false;
@@ -279,7 +348,13 @@ namespace Huzaifa_Mobile_Care
                 if (GetSerialNumber(btn.Content.ToString(), container) == Serial)
                 {
                     string content = btn.Content?.ToString() ?? string.Empty;
-                    SelectedButton = content.Substring(2);
+                    billItem.Name = content.Substring(2);
+
+                    if (int.TryParse(LOAD_AMOUNT_TBOX.Text, out int result) && result > 0)
+                        InvoiceEntryButton.IsEnabled = true;
+                    else
+                        InvoiceEntryButton.IsEnabled = false;
+
                     EnableFunctionality(btn, container);
                     btn.IsEnabled = false;
                 }
@@ -368,15 +443,210 @@ namespace Huzaifa_Mobile_Care
                 if (panel1.Name == "LOAD")
                     KeyboardFocusedPanelName = panel1.Name + "_BUTTONS";
 
+                if (billItem != null)
+                {
+                    billItem.Name = null;
+                    billItem.Price = 0;
+                    billItem.Cost = 0;
+                    billItem.Margin = 0;
+
+                    var v = this.FindElementsWithNameContains("AMOUNT");
+
+                    foreach (var element in v)
+                    {
+                        // Do something with the elements found
+                        // For example:
+                        if (element is TextBox textBox)
+                        {
+                            textBox.Text = "0";
+                        }
+                    }
+
+                    var v1 = this.FindElementsWithNameContains("MARGIN");
+
+                    foreach (var element in v1)
+                    {
+                        // Do something with the elements found
+                        // For example:
+                        if (element is TextBox textBox)
+                        {
+                            textBox.Text = "0";
+                        }
+                    }
+
+                    var v2 = this.FindElementsWithNameContains("COST");
+
+                    foreach (var element in v2)
+                    {
+                        // Do something with the elements found
+                        // For example:
+                        if (element is TextBox textBox)
+                        {
+                            textBox.Text = "0";
+                        }
+                    }
+                }
+
                 // Visibility Options
                 Invoice.Visibility = Visibility.Collapsed;
                 PurchasePage.Visibility = Visibility.Visible;
                 panel1.Visibility = Visibility.Visible;
-                
+
                 // Updating Previous Menu Panel
                 PreviousMenuPanel = panel1;
             }
             else return;
+        }
+
+        private void AmountButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            LOAD_AMOUNT_TBOX.Text = button.Content.ToString();
+        }
+
+        
+        private void minusButton_Click(object sender, RoutedEventArgs e)
+        {
+            //if (loadAmountTextBox.Text == "") loadAmountTextBox.Text = "0";
+            if (int.TryParse(LOAD_AMOUNT_TBOX.Text, out int load))
+                if (load > 4)
+                {
+                    LOAD_AMOUNT_TBOX.Text = (load - 5).ToString();
+                }
+        }
+
+        private void plusButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LOAD_AMOUNT_TBOX.Text == "") LOAD_AMOUNT_TBOX.Text = "0";
+            LOAD_AMOUNT_TBOX.Text = (int.Parse(LOAD_AMOUNT_TBOX.Text) + 5).ToString();
+        }
+
+        private void NUMERIC_TBOX_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb.Text == "" || billItem is null)
+            {
+                return;
+            }
+            if (tb.Name.Contains("AMOUNT"))
+            {
+                billItem.Price = int.Parse(tb.Text);
+                if (billItem != null && billItem.Name != null && billItem.Price > 0)
+                    InvoiceEntryButton.IsEnabled = true;
+                else
+                    InvoiceEntryButton.IsEnabled = false;
+            }
+            else if (tb.Name.Contains("COST"))
+                billItem.Cost = int.Parse(tb.Text);
+            else if (tb.Name.Contains("MARGIN"))
+                billItem.Margin = int.Parse(tb.Text);
+        }
+
+        private void NUMERIC_TBOX_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void NUMERIC_TBOX_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+            TextBox tb = sender as TextBox;
+            FocusedTBoxName = tb.Name;
+            // Clear the "0" value when the TextBox gets focus
+            if (tb.Text == "0")
+            {
+                tb.Text = string.Empty;
+            }
+        }
+
+        private void NUMERIC_TBOX_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Regular expression to allow only numeric input
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void NUMERIC_TBOX_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            // Restore the "0" value if the TextBox is empty when it loses focus
+            if (string.IsNullOrEmpty(tb.Text))
+            {
+                tb.Text = "0";
+            }
+        }
+
+        private bool IsAnyTextBoxFocused()
+        {
+            // Check if any TextBox in the window is focused
+            return this.FindVisualChildren<TextBox>().Any(tb => tb.IsFocused);
+        }
+
+        private void InvoiceEntryButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show($"{billItem.Name}, {billItem.Price}, {billItem.Margin}, {billItem.Cost}");
+        }
+
+        // Extension method to find all visual children of a specific type
+
+    }
+    public static class DependencyObjectExtensions
+    {
+        public static IEnumerable<T> FindVisualChildren<T>(this DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+    }
+
+    public class InvoiceObject
+    {
+        public string Name { get; set; }
+        public int Price { get; set; }
+        public int Cost { get; set; }
+        public int Margin { get; set; }
+
+        public InvoiceObject()
+        {
+            Name = null;
+            Price = 0;
+            Cost = 0;
+            Margin = 0;
+        }
+    }
+
+    public static class VisualTreeHelperExtensions
+    {
+        public static IEnumerable<FrameworkElement> FindElementsWithNameContains(this DependencyObject parent, string nameContains)
+        {
+            var count = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i) as FrameworkElement;
+                if (child != null)
+                {
+                    if (child.Name.Contains(nameContains))
+                        yield return child;
+
+                    foreach (var foundChild in FindElementsWithNameContains(child, nameContains))
+                        yield return foundChild;
+                }
+            }
         }
     }
 }

@@ -18,6 +18,10 @@
 
 
 
+        <BlurEffect x:Key="BlurredEffect" Radius="15" />
+        <BlurEffect x:Key="NoBlurEffect" Radius="0" />
+
+
 
 
         <!--  [========== Buttons ==========]  -->
@@ -159,6 +163,47 @@
             </Setter>
         </Style>
 
+        <Style
+            x:Key="AmountButton"
+            BasedOn="{StaticResource DefaultButtonStyle}"
+            TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource Blue}" />
+            <Setter Property="Foreground" Value="{StaticResource White}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontFamily" Value="Aoboshi One" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="25">
+                            <ContentPresenter
+                                Margin="15,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style
+            x:Key="AmountIconButton"
+            BasedOn="{StaticResource AmountButton}"
+            TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentPresenter
+                                Margin="15,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
 

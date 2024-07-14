@@ -10,7 +10,8 @@ Following are reused in the code with the repeatition of the code.
 - Header
 
 ## Todo
-- Create LoadPage UI
+- Modify the code for LoadPage
+- Create LoadPage UI (done)
 - Create DataBase to store the Sales of the LoadPage
 - Create Class for Sim and also save them in DataBase with the Balance
 - Disable Sim if its load is below 100
