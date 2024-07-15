@@ -2,10 +2,16 @@ D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\bin\Debug\Huzaifa Mobil
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\bin\Debug\Huzaifa Mobile Care.exe
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\bin\Debug\Huzaifa Mobile Care.pdb
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.csproj.AssemblyReference.cache
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\Header.g.cs
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\NumericTextBox.g.cs
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\LoginWindow.g.cs
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\App.g.cs
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care_MarkupCompile.cache
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care_MarkupCompile.lref
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\App.baml
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\Header.baml
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\NumericTextBox.baml
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\LoginWindow.baml
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.g.resources
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa_Mobile_Care.Properties.Resources.resources
@@ -13,7 +19,3 @@ D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobil
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.csproj.CoreCompileInputs.cache
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.exe
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.pdb
-D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\App.baml
-D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\Header.g.cs
-D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GeneratedInternalTypeHelper.g.cs
-D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\Header.baml

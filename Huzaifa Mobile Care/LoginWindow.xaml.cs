@@ -17,6 +17,7 @@ using Huzaifa_Mobile_Care.BL;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
+using Huzaifa_Mobile_Care.GUI.UserControls;
 
 namespace Huzaifa_Mobile_Care
 {
@@ -26,13 +27,18 @@ namespace Huzaifa_Mobile_Care
     /// </summary>
     public partial class LoginWindow : Window
     {
+        public enum SelectedNumericBox
+        {
+            Price, Margin, Cost
+        }
+
         public Panel PreviousMenuPanel { get; set; }         // To collapse the visibility of the previous Menu Page (LOAD,CASH,BILL,SERVICES,ACCESSORY)
         public Panel KeyboardFocusedPanel { get; set; }        // For switching of Numpad Shortcut Keys for New Page
         private string ActiveUser { get; set; }     // For getting the active user name
         private string SelectedButton { get; set; }
-        private int EnteredAmount { get; set; }
-        private string FocusedTBoxName { get; set; }
-        private InvoiceItem billItem { get; set; }
+        public SelectedNumericBox FocusedTBox { get; set; }
+        public string FocusedTBoxName { get; set; }
+        public InvoiceItem billItem { get; set; }
 
         private List<string> SimButtons { get; set; }
 
@@ -84,39 +90,37 @@ namespace Huzaifa_Mobile_Care
                     int tagToDisable = keyToButtonTagMap[e.Key];
                     DisableMenuButton(tagToDisable, KeyboardFocusedPanel);      // Disable the button with the corresponding tag
                 }
-                else if (e.Key == Key.OemPlus)
-                {
-                    var v = this.FindElementsWithNameContains("AMOUNT");
+                //else if (e.Key == Key.OemPlus)
+                //{
+                //    var v = this.FindElementsWithNameContains("AMOUNT");
 
-                    foreach (var element in v)
-                    {
-                        // Do something with the elements found
-                        // For example:
-                        if (element is TextBox textBox)
-                        {
-                            if (textBox.Text == "") textBox.Text = "0";
-                            textBox.Text = (int.Parse(textBox.Text) + 5).ToString();
-                        }
-                    }
+                //    foreach (var element in v)
+                //    {
+                //        // Do something with the elements found
+                //        // For example:
+                //        if (element is TextBox textBox)
+                //        {
+                //            if (textBox.Text == "") textBox.Text = "0";
+                //            textBox.Text = (int.Parse(textBox.Text) + 5).ToString();
+                //        }
+                //    }
+                //}
+                //else if (e.Key == Key.OemMinus)
+                //{
+                //    var v = this.FindElementsWithNameContains("AMOUNT");
 
-
-                }
-                else if (e.Key == Key.OemMinus)
-                {
-                    var v = this.FindElementsWithNameContains("AMOUNT");
-
-                    foreach (var element in v)
-                    {
-                        // Do something with the elements found
-                        // For example:
-                        if (element is TextBox textBox)
-                        {
-                            if (textBox.Text == "") textBox.Text = "0";
-                            if (int.Parse(textBox.Text) < 5) return;
-                            textBox.Text = (int.Parse(textBox.Text) - 5).ToString();
-                        }
-                    }
-                }
+                //    foreach (var element in v)
+                //    {
+                //        // Do something with the elements found
+                //        // For example:
+                //        if (element is TextBox textBox)
+                //        {
+                //            if (textBox.Text == "") textBox.Text = "0";
+                //            if (int.Parse(textBox.Text) < 5) return;
+                //            textBox.Text = (int.Parse(textBox.Text) - 5).ToString();
+                //        }
+                //    }
+                //}
                 return;
             }
 
@@ -318,7 +322,7 @@ namespace Huzaifa_Mobile_Care
                     string content = btn.Content?.ToString() ?? string.Empty;
                     billItem.Name = content.Substring(2);
 
-                    if (int.TryParse(LOAD_AMOUNT_TBOX.Text, out int result) && result > 0)
+                    if (int.TryParse(LOAD_AMOUNT_TBOX.NumericTBOX.Text, out int result) && result > 0)
                         InvoiceEntryButton.IsEnabled = true;
                     else
                         InvoiceEntryButton.IsEnabled = false;
@@ -410,7 +414,10 @@ namespace Huzaifa_Mobile_Care
                 if (panel1.Name == "LOAD")
                 {
                     KeyboardFocusedPanel = (Panel)FindName(panel1.Name + "_BUTTONS");
+                    FocusedTBox = SelectedNumericBox.Price;
                 }
+
+                InvoiceEntryButton.IsEnabled = false;
 
 
                 ResetBillItem();
@@ -435,122 +442,77 @@ namespace Huzaifa_Mobile_Care
                 billItem.Cost = 0;
                 billItem.Margin = 0;
 
-                var v = this.FindElementsWithNameContains("AMOUNT");
+                //var v = this.FindElementsWithNameContains("AMOUNT");
 
-                foreach (var element in v)
+                //foreach (var element in v)
+                //{
+                //    // Do something with the elements found
+                //    // For example:
+                //    if (element is TextBox textBox)
+                //    {
+                //        textBox.Text = "0";
+                //    }
+                //}
+
+                var v1 = this.FindElementsWithNameContains("TBOX");
+                foreach(var element in v1)
                 {
-                    // Do something with the elements found
-                    // For example:
-                    if (element is TextBox textBox)
+                    if (element is NumericTextBox numerictextbox)
                     {
-                        textBox.Text = "0";
+                        numerictextbox.Text = "0";
                     }
                 }
 
-                var v1 = this.FindElementsWithNameContains("MARGIN");
 
-                foreach (var element in v1)
-                {
-                    // Do something with the elements found
-                    // For example:
-                    if (element is TextBox textBox)
-                    {
-                        textBox.Text = "0";
-                    }
-                }
+                //foreach (var element in v1)
+                //{
+                //    // Do something with the elements found
+                //    // For example:
+                //    if (element is TextBox textBox)
+                //    {
+                //        textBox.Text = "0";
+                //    }
+                //}
 
-                var v2 = this.FindElementsWithNameContains("COST");
+                //var v2 = this.FindElementsWithNameContains("COST");
 
-                foreach (var element in v2)
-                {
-                    // Do something with the elements found
-                    // For example:
-                    if (element is TextBox textBox)
-                    {
-                        textBox.Text = "0";
-                    }
-                }
+                //foreach (var element in v2)
+                //{
+                //    // Do something with the elements found
+                //    // For example:
+                //    if (element is TextBox textBox)
+                //    {
+                //        textBox.Text = "0";
+                //    }
+                //}
             }
         }
 
         private void AmountButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            LOAD_AMOUNT_TBOX.Text = button.Content.ToString();
+            var tbox = (UserControl)FindName(PreviousMenuPanel.Name + "_AMOUNT_TBOX");
+            LOAD_AMOUNT_TBOX.NumericTBOX.Text = button.Content.ToString();
         }
 
         
         private void minusButton_Click(object sender, RoutedEventArgs e)
         {
             //if (loadAmountTextBox.Text == "") loadAmountTextBox.Text = "0";
-            if (int.TryParse(LOAD_AMOUNT_TBOX.Text, out int load))
+            if (int.TryParse(LOAD_AMOUNT_TBOX.NumericTBOX.Text, out int load))
                 if (load > 4)
                 {
-                    LOAD_AMOUNT_TBOX.Text = (load - 5).ToString();
+                    LOAD_AMOUNT_TBOX.NumericTBOX.Text = (load - 5).ToString();
                 }
         }
 
         private void plusButton_Click(object sender, RoutedEventArgs e)
         {
-            if (LOAD_AMOUNT_TBOX.Text == "") LOAD_AMOUNT_TBOX.Text = "0";
-            LOAD_AMOUNT_TBOX.Text = (int.Parse(LOAD_AMOUNT_TBOX.Text) + 5).ToString();
+            if (LOAD_AMOUNT_TBOX.NumericTBOX.Text == "") LOAD_AMOUNT_TBOX.NumericTBOX.Text = "0";
+            LOAD_AMOUNT_TBOX.NumericTBOX.Text = (int.Parse(LOAD_AMOUNT_TBOX.NumericTBOX.Text) + 5).ToString();
         }
 
-        private void NUMERIC_TBOX_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            if (tb.Text == "" || billItem is null)
-            {
-                return;
-            }
-            if (tb.Name.Contains("AMOUNT"))
-            {
-                billItem.Price = int.Parse(tb.Text);
-                if (billItem != null && billItem.Name != null && billItem.Price > 0)
-                    InvoiceEntryButton.IsEnabled = true;
-                else
-                    InvoiceEntryButton.IsEnabled = false;
-            }
-            else if (tb.Name.Contains("COST"))
-                billItem.Cost = int.Parse(tb.Text);
-            else if (tb.Name.Contains("MARGIN"))
-                billItem.Margin = int.Parse(tb.Text);
-        }
-
-        private void NUMERIC_TBOX_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space)
-                e.Handled = true;
-        }
-
-        private void NUMERIC_TBOX_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-            TextBox tb = sender as TextBox;
-            FocusedTBoxName = tb.Name;
-            // Clear the "0" value when the TextBox gets focus
-            if (tb.Text == "0")
-            {
-                tb.Text = string.Empty;
-            }
-        }
-
-        private void NUMERIC_TBOX_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            // Regular expression to allow only numeric input
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void NUMERIC_TBOX_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            // Restore the "0" value if the TextBox is empty when it loses focus
-            if (string.IsNullOrEmpty(tb.Text))
-            {
-                tb.Text = "0";
-            }
-        }
+        
 
         private bool IsAnyTextBoxFocused()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Huzaifa_Mobile_Care.BL
 {
-    class InvoiceItem
+    public class InvoiceItem
     {
         public string Name { get; set; }
         public int Quantity { get; set; }

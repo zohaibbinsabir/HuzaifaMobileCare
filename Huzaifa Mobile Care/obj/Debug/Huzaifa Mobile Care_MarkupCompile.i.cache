@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\App.xaml
-21803510670
+4-1773183460
 
-101511506768
+121363385669
 13-1505183044
-GUI\UserControls\Header.xaml;LoginWindow.xaml;
+GUI\UserControls\Header.xaml;GUI\UserControls\NumericTextBox.xaml;GUI\UserControls\PriceBox.xaml;LoginWindow.xaml;
 
 True
 
