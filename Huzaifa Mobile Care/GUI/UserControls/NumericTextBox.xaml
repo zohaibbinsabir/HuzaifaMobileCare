@@ -9,7 +9,7 @@
     d:DesignWidth="300"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="NumericTBox" TargetType="TextBox">
+        <Style x:Key="NumericTBoxStyle" TargetType="TextBox">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -17,17 +17,17 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="FontSize" Value="24" />
             <Setter Property="Text" Value="0" />
-            <EventSetter Event="GotFocus" Handler="NUMERIC_TBOX_GotFocus" />
-            <EventSetter Event="LostFocus" Handler="NUMERIC_TBOX_LostFocus" />
-            <EventSetter Event="PreviewKeyDown" Handler="NUMERIC_TBOX_PreviewKeyDown" />
-            <EventSetter Event="PreviewTextInput" Handler="NUMERIC_TBOX_PreviewTextInput" />
-            <EventSetter Event="TextChanged" Handler="NUMERIC_TBOX_TextChanged" />
+            <EventSetter Event="GotFocus" Handler="NumericTBox_GotFocus" />
+            <EventSetter Event="LostFocus" Handler="NumericTBox_LostFocus" />
+            <EventSetter Event="PreviewKeyDown" Handler="NumericTBox_PreviewKeyDown" />
+            <EventSetter Event="PreviewTextInput" Handler="NumericTBox_PreviewTextInput" />
+            <EventSetter Event="TextChanged" Handler="NumericTBox_TextChanged" />
         </Style>
     </UserControl.Resources>
     <TextBox
-        Name="NumericTBOX"
-        PreviewKeyDown="NUMERIC_TBOX_PreviewKeyDown"
-        Style="{StaticResource NumericTBox}"
+        Name="NumericTBox"
+        PreviewKeyDown="NumericTBox_PreviewKeyDown"
+        Style="{StaticResource NumericTBoxStyle}"
         Tag="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}"
         Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 </UserControl>

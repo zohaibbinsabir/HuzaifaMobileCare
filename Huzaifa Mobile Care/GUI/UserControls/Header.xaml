@@ -12,7 +12,7 @@
 
         <!--  Left Buttons  -->
         <DockPanel
-            Name="HeaderUserTextButtons"
+            Name="HeaderTextButtons_USER"
             DockPanel.Dock="Left"
             LastChildFill="False"
             Visibility="Visible">
@@ -29,33 +29,33 @@
                 Click="CloseButton_Click"
                 Content="&#xE10A;"
                 DockPanel.Dock="Right"
-                Style="{StaticResource IconButtonRedHowerStyle}"
+                Style="{StaticResource IconButtonStyle_RedHower}"
                 ToolTip="Close" />
             <Button
                 x:Name="MinimizeButton"
                 Click="MinimizeButton_Click"
                 Content="&#xE108;"
                 DockPanel.Dock="Right"
-                Style="{StaticResource IconButtonStyle}"
+                Style="{StaticResource IconButtonStyle_Default}"
                 ToolTip="Minimize" />
 
             <!--  User Buttons  -->
             <StackPanel
-                x:Name="HeaderUserIconButtons"
+                x:Name="HeaderIconButtons_USER"
                 Orientation="Horizontal"
                 Visibility="Visible">
 
                 <Button
                     Content="&#xE115;"
                     DockPanel.Dock="Right"
-                    Style="{StaticResource IconButtonStyle}"
+                    Style="{StaticResource IconButtonStyle_Default}"
                     ToolTip="Settings" />
                 <Button
                     Name="Logout"
                     Click="Logout_Click"
                     Content="&#xE77B;"
                     DockPanel.Dock="Right"
-                    Style="{StaticResource IconButtonRedHowerStyle}"
+                    Style="{StaticResource IconButtonStyle_RedHower}"
                     ToolTip="Logout" />
 
                 <Border
@@ -73,7 +73,7 @@
             Margin="15,0"
             DockPanel.Dock="Bottom"
             Style="{StaticResource DefaultTextBlockStyle}"
-            Text="HUZAIFA MOBILE CENTER" />
+            Text="HUZAIFA MOBILE CARE" />
 
     </DockPanel>
 </UserControl>

@@ -8,7 +8,7 @@
     d:DesignHeight="70"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid Grid.Row="1" Background="White">
+    <Grid Background="{StaticResource White}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="70" />
@@ -25,12 +25,11 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Border
-                    Name="LOAD_AMOUNT_BORDER"
+                    Name="PBox_Border"
                     Background="{StaticResource Blue}"
                     BorderBrush="{StaticResource Blue}"
                     BorderThickness="0,0,1,0"
-                    CornerRadius="5,0,0,5"
-                    Tag="NumericTBox_Border">
+                    CornerRadius="5,0,0,5">
                     <TextBlock
                         Grid.Column="0"
                         HorizontalAlignment="Center"
@@ -41,25 +40,23 @@
                         Text="Load Amount" />
                 </Border>
                 <local:NumericTextBox
-                    x:Name="LOAD_AMOUNT_TBOX"
+                    x:Name="PBox_TBox"
                     Grid.Column="1"
                     Margin="0,0,5,0"
                     Tag="Amount" />
             </Grid>
         </Border>
         <Button
-            Name="minusButton"
             Grid.Column="1"
             Margin="10"
-            Click="minusButton_Click"
+            Click="MinusButton_Click"
             Content="-"
-            Style="{StaticResource AmountIconButton}" />
+            Style="{StaticResource IconButtonStyle}" />
         <Button
-            Name="plusButton"
             Grid.Column="2"
             Margin="10"
-            Click="plusButton_Click"
+            Click="PlusButton_Click"
             Content="+"
-            Style="{StaticResource AmountIconButton}" />
+            Style="{StaticResource IconButtonStyle}" />
     </Grid>
 </UserControl>

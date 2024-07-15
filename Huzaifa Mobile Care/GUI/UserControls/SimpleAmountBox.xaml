@@ -8,6 +8,20 @@
     d:DesignHeight="70"
     d:DesignWidth="300"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <Style x:Key="NumericTBox" TargetType="local:NumericTextBox">
+            <Setter Property="Effect" Value="{StaticResource BlurredEffect}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Effect" Value="{StaticResource NoBlurEffect}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+
     <Border
         Margin="10"
         Background="White"
@@ -20,14 +34,12 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Border
-                Name="LOAD_MARGIN_BORDER"
                 Background="{StaticResource White}"
                 BorderBrush="{StaticResource Blue}"
                 BorderThickness="0,0,1,0"
-                CornerRadius="25,0,0,25"
-                Tag="NumericTBox_Border">
+                CornerRadius="25,0,0,25">
                 <TextBlock
-                    Name="BoxName"
+                    Name="SimpleABox_TBlock"
                     Grid.Column="0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -35,11 +47,11 @@
                     FontSize="24"
                     Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" />
             </Border>
-            <!--  PreviewTextInput="NumerictBox_PreviewTextInput"  -->
             <local:NumericTextBox
-                x:Name="LOAD_MARGIN_TBOX"
+                x:Name="SimpleABox_NumericTBox"
                 Grid.Column="1"
                 Margin="0,0,25,0"
+                Style="{StaticResource NumericTBox}"
                 Tag="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" />
         </Grid>
     </Border>

@@ -9,19 +9,12 @@
         <!--  [========== Colors ==========]  -->
 
         <SolidColorBrush x:Key="Blue" Color="#121828" />
-
         <SolidColorBrush x:Key="Yellow" Color="#FFB800" />
-
         <SolidColorBrush x:Key="White" Color="White" />
-
         <SolidColorBrush x:Key="Red" Color="Red" />
-
-
 
         <BlurEffect x:Key="BlurredEffect" Radius="15" />
         <BlurEffect x:Key="NoBlurEffect" Radius="0" />
-
-
 
 
         <!--  [========== Buttons ==========]  -->
@@ -57,7 +50,7 @@
 
         <!--  Icon Button Style  -->
         <Style
-            x:Key="IconButtonStyle"
+            x:Key="IconButtonStyle_Default"
             BasedOn="{StaticResource DefaultButtonStyle}"
             TargetType="Button">
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
@@ -78,8 +71,8 @@
 
         <!--  Default Button Red Hower Style  -->
         <Style
-            x:Key="IconButtonRedHowerStyle"
-            BasedOn="{StaticResource IconButtonStyle}"
+            x:Key="IconButtonStyle_RedHower"
+            BasedOn="{StaticResource IconButtonStyle_Default}"
             TargetType="Button">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -97,6 +90,8 @@
             <Setter Property="FontFamily" Value="Aoboshi One" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="IsEnabled" Value="False" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -178,10 +173,9 @@
         </Style>
 
         <Style
-            x:Key="AmountIconButton"
+            x:Key="IconButtonStyle"
             BasedOn="{StaticResource AmountButtonDefault}"
             TargetType="Button">
-
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -215,8 +209,8 @@
         <Style x:Key="LoginPageText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White" />
             <Setter Property="FontFamily" Value="Anonymous Pro" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="FontSize" Value="16" />
         </Style>
 
@@ -356,6 +350,10 @@
             <Setter Property="Background" Value="{StaticResource Blue}" />
             <Setter Property="BorderBrush" Value="White" />
             <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="ToolTip" Value="Enter 4 Digit Pin" />
+            <Setter Property="Height" Value="50" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
@@ -395,6 +393,19 @@
         </Style>
 
 
+        <!--  [========== Border ==========]  -->
+
+        <!--  Login Page Border  -->
+        <Style x:Key="LoginPageBorder" TargetType="Border">
+            <Setter Property="Width" Value="auto" />
+            <Setter Property="Height" Value="auto" />
+            <Setter Property="Padding" Value="50" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Visibility" Value="Visible" />
+            <Setter Property="Background" Value="{StaticResource Blue}" />
+        </Style>
 
 
     </Application.Resources>

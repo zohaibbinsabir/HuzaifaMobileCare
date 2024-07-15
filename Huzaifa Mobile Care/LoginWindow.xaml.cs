@@ -42,6 +42,11 @@ namespace Huzaifa_Mobile_Care
 
         private List<string> SimButtons { get; set; }
 
+        public void SetMarginValue (string value)
+        {
+            MarginBox.SimpleABox_NumericTBox.Text = value;
+        }
+
         // Connection for the Database
         private readonly string connectionString = "Server=DESKTOP-27KC7PD\\SQLEXPRESS;Database=UserManagementDB;Trusted_Connection=True;";
 
@@ -52,11 +57,6 @@ namespace Huzaifa_Mobile_Care
             MyHeader.ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);   // Removing User options from Header
             SimButtons = new List<string>() { };
             getAllSims();
-
-            //SimButtons = new List<string>()
-            //{
-            //    "Jazz", "Ufone", "Zong", "Telenor"
-            //};
 
             foreach (string s in SimButtons)
             {
@@ -95,14 +95,14 @@ namespace Huzaifa_Mobile_Care
                 }
                 else if (e.Key == Key.OemPlus || e.Key == Key.Add)
                 {
-                    if (PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text == "") PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text = "0";
-                    PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text = (int.Parse(PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text) + 5).ToString();
+                    if (PRICE_BOX.PBox_TBox.Text == "") PRICE_BOX.PBox_TBox.Text = "0";
+                    PRICE_BOX.PBox_TBox.Text = (int.Parse(PRICE_BOX.PBox_TBox.Text) + 5).ToString();
                 }
                 else if (e.Key == Key.OemMinus || e.Key == Key.Subtract)
                 {
-                    if (PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text == "") PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text = "0";
-                    if (int.Parse(PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text)>4)
-                        PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text = (int.Parse(PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text) - 5).ToString();
+                    if (PRICE_BOX.PBox_TBox.Text == "") PRICE_BOX.PBox_TBox.Text = "0";
+                    if (int.Parse(PRICE_BOX.PBox_TBox.Text)>4)
+                        PRICE_BOX.PBox_TBox.Text = (int.Parse(PRICE_BOX.PBox_TBox.Text) - 5).ToString();
                 }
                 return;
             }
@@ -433,19 +433,7 @@ namespace Huzaifa_Mobile_Care
                 billItem.Cost = 0;
                 billItem.Margin = 0;
 
-                //var v = this.FindElementsWithNameContains("AMOUNT");
-
-                //foreach (var element in v)
-                //{
-                //    // Do something with the elements found
-                //    // For example:
-                //    if (element is TextBox textBox)
-                //    {
-                //        textBox.Text = "0";
-                //    }
-                //}
-
-                var v1 = this.FindElementsWithNameContains("TBOX");
+                var v1 = this.FindElementsWithNameContains("TBox");
                 foreach(var element in v1)
                 {
                     if (element is NumericTextBox numerictextbox)
@@ -453,29 +441,6 @@ namespace Huzaifa_Mobile_Care
                         numerictextbox.Text = "0";
                     }
                 }
-
-
-                //foreach (var element in v1)
-                //{
-                //    // Do something with the elements found
-                //    // For example:
-                //    if (element is TextBox textBox)
-                //    {
-                //        textBox.Text = "0";
-                //    }
-                //}
-
-                //var v2 = this.FindElementsWithNameContains("COST");
-
-                //foreach (var element in v2)
-                //{
-                //    // Do something with the elements found
-                //    // For example:
-                //    if (element is TextBox textBox)
-                //    {
-                //        textBox.Text = "0";
-                //    }
-                //}
             }
         }
 

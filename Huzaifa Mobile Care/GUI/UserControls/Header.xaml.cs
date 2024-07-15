@@ -1,23 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Huzaifa_Mobile_Care.GUI.UserControls
 {
-    /// <summary>
-    /// Interaction logic for Header.xaml
-    /// </summary>
     public partial class Header : UserControl
     {
         public Header()
@@ -37,16 +22,14 @@ namespace Huzaifa_Mobile_Care.GUI.UserControls
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            // Getting Instance of the Existing Window Page
+            // Getting instance of the existing window page to perform operations
             LoginWindow MainWindow = Application.Current.MainWindow as LoginWindow;
             
-            // Changing Header to Hide User Options
+            // Changing header to hide user options
             ModifyHeader(Visibility.Collapsed, HorizontalAlignment.Left);
 
-            // Showing Login Page
+            // Changing visibility to show Login Page only
             MainWindow.LoginPage.Visibility = Visibility.Visible;
-
-            // Hiding All pages
             if (MainWindow.PreviousMenuPanel != null)
             {
                 MainWindow.PreviousMenuPanel.Visibility = Visibility.Collapsed;
@@ -58,14 +41,14 @@ namespace Huzaifa_Mobile_Care.GUI.UserControls
             MainWindow.GetSerialNumbers((Panel)MainWindow.FindName("Menu"));
             MainWindow.ResetPanelButtons(MainWindow.KeyboardFocusedPanel);
 
-            // Resetting Current Bill Item and Page
+            // Resetting Current Bill Item and Menu Page Text Boxes
             MainWindow.ResetBillItem();
         }
 
         public void ModifyHeader(Visibility UserHeaderButtonsVisibility, HorizontalAlignment BrandNameHorizontalAlignment)
         {
-            HeaderUserTextButtons.Visibility = UserHeaderButtonsVisibility;
-            HeaderUserIconButtons.Visibility = UserHeaderButtonsVisibility;
+            HeaderTextButtons_USER.Visibility = UserHeaderButtonsVisibility;
+            HeaderIconButtons_USER.Visibility = UserHeaderButtonsVisibility;
             BrandName.HorizontalAlignment = BrandNameHorizontalAlignment;
         }
     }

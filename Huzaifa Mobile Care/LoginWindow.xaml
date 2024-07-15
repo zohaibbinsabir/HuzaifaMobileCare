@@ -15,6 +15,7 @@
     mc:Ignorable="d">
 
     <Window.Resources>
+
         <Style
             x:Key="MenuButton"
             BasedOn="{StaticResource ApplicationButton}"
@@ -22,6 +23,7 @@
             <Setter Property="FontFamily" Value="Norwester" />
             <EventSetter Event="Click" Handler="SerialButton_Click" />
         </Style>
+
         <Style
             x:Key="SimButton"
             BasedOn="{StaticResource ApplicationButton}"
@@ -31,16 +33,6 @@
             <Setter Property="Height" Value="50" />
             <Setter Property="BorderThickness" Value="1" />
             <EventSetter Event="Click" Handler="SerialButton_Click" />
-        </Style>
-
-
-        <Style x:Key="NumericTBox2" TargetType="TextBox">
-            <Setter Property="Effect" Value="{StaticResource BlurredEffect}" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Effect" Value="{StaticResource NoBlurEffect}" />
-                </Trigger>
-            </Style.Triggers>
         </Style>
 
         <Style
@@ -64,11 +56,8 @@
 
     </Window.Resources>
 
-    <!--
-        Login Page Visibility
-    -->
-
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition />
@@ -76,18 +65,12 @@
 
         <UserControls:Header x:Name="MyHeader" />
 
-        <!--  Login Page  -->
+        <!--#region LoginPage Section-->
+
         <Border
             Name="LoginPage"
             Grid.Row="1"
-            Width="Auto"
-            Height="Auto"
-            Padding="50"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="{StaticResource Blue}"
-            CornerRadius="10"
-            Visibility="Visible">
+            Style="{StaticResource LoginPageBorder}">
 
             <StackPanel>
 
@@ -101,6 +84,7 @@
                 <!--  Login To Account Text  -->
                 <TextBlock
                     Margin="0,-5,0,50"
+                    HorizontalAlignment="Center"
                     Style="{StaticResource LoginPageText}"
                     Text="Login to your Account" />
 
@@ -143,42 +127,42 @@
                 <!--  Pin Box  -->
                 <PasswordBox
                     Name="PinBox"
-                    Height="50"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    FontSize="24"
-                    IsEnabled="False"
                     PasswordChanged="PinBox_PasswordChanged"
                     PreviewKeyDown="PinBox_PreviewKeyDown"
                     PreviewTextInput="PinBox_PreviewTextInput"
-                    Style="{StaticResource PinBox}"
-                    ToolTip="Enter 4 Digit Pin" />
+                    Style="{StaticResource PinBox}" />
 
                 <!--  Login Button  -->
                 <Button
                     Name="LoginButton"
-                    Height="50"
                     Margin="0,50,0,0"
                     Click="LoginButton_Click"
                     Content="Login"
-                    IsEnabled="False"
                     Style="{StaticResource SubmitButton}" />
 
             </StackPanel>
 
         </Border>
 
-        <!--  Customer Purchase Page  -->
+        <!--#endregion-->
+
+        <!--#region CustomerPage Section-->
+
         <Grid
             Name="CustomerPage"
             Grid.Row="1"
             Margin="10"
             Visibility="Collapsed">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+
+            <!--#region Menu-->
+
             <Grid Name="Menu" Grid.Column="0">
+
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
@@ -186,6 +170,7 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
+
                 <Button
                     Grid.Row="0"
                     Content="1 LOAD"
@@ -208,13 +193,17 @@
                     Style="{StaticResource MenuButton}" />
             </Grid>
 
-            <!--  Invoice Page  -->
+            <!--#endregion-->
+
+
             <Border
                 Name="Invoice"
                 Grid.Column="1"
                 Margin="10"
                 Background="{StaticResource Blue}"
                 Visibility="Collapsed" />
+
+            <!--#region PurchasePage-->
 
             <Border
                 Name="PurchasePage"
@@ -223,11 +212,14 @@
                 Background="{StaticResource Blue}"
                 CornerRadius="5"
                 Visibility="Collapsed">
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="80" />
                     </Grid.RowDefinitions>
+
+                    <!--#region LOAD-Menu-->
 
                     <Grid
                         Name="LOAD"
@@ -235,11 +227,13 @@
                         Margin="10"
                         Background="{StaticResource Blue}"
                         Visibility="Collapsed">
+
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition Height="180" />
                             <RowDefinition Height="110" />
                         </Grid.RowDefinitions>
+
                         <Border
                             Margin="10"
                             Background="{StaticResource White}"
@@ -247,12 +241,15 @@
                             <WrapPanel Name="LOAD_BUTTONS" Margin="10" />
                         </Border>
 
+                        <!--#region PriceSection-->
+
                         <Border
                             Grid.Row="1"
                             Margin="10"
                             Background="{StaticResource White}"
                             CornerRadius="5">
                             <Grid Margin="10">
+
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
@@ -290,8 +287,12 @@
                                 </Grid>
 
                                 <UserControls:PriceBox x:Name="PRICE_BOX" Grid.Row="1" />
+
                             </Grid>
+
                         </Border>
+
+                        <!--#endregion-->
 
                         <Border
                             Grid.Row="2"
@@ -299,15 +300,24 @@
                             Background="{StaticResource White}"
                             CornerRadius="5">
                             <Grid Margin="10">
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
+
                                 <UserControls:SimpleAmountBox Grid.Column="0" SimpleAmountBoxName="Cost" />
-                                <UserControls:SimpleAmountBox Grid.Column="1" SimpleAmountBoxName="Margin" />
+                                <UserControls:SimpleAmountBox
+                                    x:Name="MarginBox"
+                                    Grid.Column="1"
+                                    SimpleAmountBoxName="Margin" />
                             </Grid>
+
                         </Border>
+
                     </Grid>
+
+                    <!--#endregion-->
 
                     <StackPanel
                         Name="CASH"
@@ -344,12 +354,16 @@
                         Margin="20,0,20,20"
                         Click="InvoiceEntryButton_Click"
                         Content="Enter"
-                        IsEnabled="False"
                         Style="{StaticResource SubmitButton}" />
                 </Grid>
             </Border>
 
+            <!--#endregion-->
+
         </Grid>
+
+        <!--#endregion-->
+
     </Grid>
 
 </Window>
