@@ -163,8 +163,10 @@
             </Setter>
         </Style>
 
+
+
         <Style
-            x:Key="AmountButton"
+            x:Key="AmountButtonDefault"
             BasedOn="{StaticResource DefaultButtonStyle}"
             TargetType="Button">
             <Setter Property="Background" Value="{StaticResource Blue}" />
@@ -172,25 +174,14 @@
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="FontFamily" Value="Aoboshi One" />
             <Setter Property="FontSize" Value="24" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="25">
-                            <ContentPresenter
-                                Margin="15,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Margin" Value="10" />
         </Style>
-
 
         <Style
             x:Key="AmountIconButton"
-            BasedOn="{StaticResource AmountButton}"
+            BasedOn="{StaticResource AmountButtonDefault}"
             TargetType="Button">
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">

@@ -73,6 +73,9 @@ namespace Huzaifa_Mobile_Care
         /* Global Shortcuts */
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+
+            
+
             if (InvoiceEntryButton.IsEnabled && e.Key == Key.Enter)
             {
                 MessageBox.Show($"{billItem.Name}, {billItem.Price}, {billItem.Margin}, {billItem.Cost}");
@@ -90,37 +93,17 @@ namespace Huzaifa_Mobile_Care
                     int tagToDisable = keyToButtonTagMap[e.Key];
                     DisableMenuButton(tagToDisable, KeyboardFocusedPanel);      // Disable the button with the corresponding tag
                 }
-                //else if (e.Key == Key.OemPlus)
-                //{
-                //    var v = this.FindElementsWithNameContains("AMOUNT");
-
-                //    foreach (var element in v)
-                //    {
-                //        // Do something with the elements found
-                //        // For example:
-                //        if (element is TextBox textBox)
-                //        {
-                //            if (textBox.Text == "") textBox.Text = "0";
-                //            textBox.Text = (int.Parse(textBox.Text) + 5).ToString();
-                //        }
-                //    }
-                //}
-                //else if (e.Key == Key.OemMinus)
-                //{
-                //    var v = this.FindElementsWithNameContains("AMOUNT");
-
-                //    foreach (var element in v)
-                //    {
-                //        // Do something with the elements found
-                //        // For example:
-                //        if (element is TextBox textBox)
-                //        {
-                //            if (textBox.Text == "") textBox.Text = "0";
-                //            if (int.Parse(textBox.Text) < 5) return;
-                //            textBox.Text = (int.Parse(textBox.Text) - 5).ToString();
-                //        }
-                //    }
-                //}
+                else if (e.Key == Key.OemPlus || e.Key == Key.Add)
+                {
+                    if (PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text == "") PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text = "0";
+                    PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text = (int.Parse(PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text) + 5).ToString();
+                }
+                else if (e.Key == Key.OemMinus || e.Key == Key.Subtract)
+                {
+                    if (PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text == "") PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text = "0";
+                    if (int.Parse(PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text)>4)
+                        PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text = (int.Parse(PRICE_BOX.LOAD_AMOUNT_TBOX.NumericTBOX.Text) - 5).ToString();
+                }
                 return;
             }
 
@@ -498,8 +481,15 @@ namespace Huzaifa_Mobile_Care
 
         private void AmountButton_Click(object sender, RoutedEventArgs e)
         {
-            NumericTextBox ntb = (NumericTextBox)this.FindElementsWithNameContains("AMOUNT_TBOX");
-            ntb.Text = (sender as Button).Content.ToString();
+            var ntb = this.FindElementsWithNameContains("AMOUNT_TBOX");
+            foreach(var element in ntb)
+            {
+                if (element is NumericTextBox nntbox)
+                {
+                    nntbox.Text = (sender as Button).Content.ToString();
+                }
+            }
+            //ntb.Text = (sender as Button).Content.ToString();
         }
 
         

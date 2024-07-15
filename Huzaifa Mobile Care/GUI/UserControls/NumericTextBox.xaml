@@ -26,6 +26,7 @@
     </UserControl.Resources>
     <TextBox
         Name="NumericTBOX"
+        PreviewKeyDown="NUMERIC_TBOX_PreviewKeyDown"
         Style="{StaticResource NumericTBox}"
         Tag="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}"
         Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" />

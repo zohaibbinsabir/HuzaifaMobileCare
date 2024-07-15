@@ -16,6 +16,7 @@ namespace Huzaifa_Mobile_Care.GUI.UserControls
             // Getting Instance of the Existing Window Page
             MainWindow = Application.Current.MainWindow as LoginWindow;
             InitializeComponent();
+            NumericTBOX.Text = "0";
         }
 
         public string Text

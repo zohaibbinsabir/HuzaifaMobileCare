@@ -21,3 +21,5 @@ D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobil
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa_Mobile_Care.Properties.Resources.resources
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.csproj.GenerateResource.cache
 D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\Huzaifa Mobile Care.csproj.CoreCompileInputs.cache
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\SimpleAmountBox.g.cs
+D:\Huzaifa Mobile Care - Application\Huzaifa Mobile Care\obj\Debug\GUI\UserControls\SimpleAmountBox.baml
