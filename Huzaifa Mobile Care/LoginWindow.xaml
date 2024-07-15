@@ -280,7 +280,9 @@
                                         Style="{StaticResource AmountButton}" />
                                 </Grid>
 
-                                <Grid Grid.Row="1" Background="White">
+                                <UserControls:PriceBox Grid.Row="1" />
+
+                                <!--<Grid Grid.Row="1" Background="White">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="70" />
@@ -333,7 +335,7 @@
                                         Click="plusButton_Click"
                                         Content="+"
                                         Style="{StaticResource AmountIconButton}" />
-                                </Grid>
+                                </Grid>-->
                             </Grid>
                         </Border>
 

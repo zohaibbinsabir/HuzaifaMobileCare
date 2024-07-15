@@ -322,10 +322,18 @@ namespace Huzaifa_Mobile_Care
                     string content = btn.Content?.ToString() ?? string.Empty;
                     billItem.Name = content.Substring(2);
 
-                    if (int.TryParse(LOAD_AMOUNT_TBOX.NumericTBOX.Text, out int result) && result > 0)
-                        InvoiceEntryButton.IsEnabled = true;
-                    else
-                        InvoiceEntryButton.IsEnabled = false;
+                    var ntb = this.FindElementsWithNameContains("AMOUNT_TBOX");
+                    foreach (var element in ntb)
+                    {
+                        if (element is NumericTextBox numerictextbox)
+                        {
+                            if (int.TryParse(numerictextbox.Text, out int result) && result > 0)
+                                InvoiceEntryButton.IsEnabled = true;
+                            else
+                                InvoiceEntryButton.IsEnabled = false;
+                        }
+                    }
+                    
 
                     EnableFunctionality(btn, container);
                     btn.IsEnabled = false;
@@ -490,27 +498,12 @@ namespace Huzaifa_Mobile_Care
 
         private void AmountButton_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            var tbox = (UserControl)FindName(PreviousMenuPanel.Name + "_AMOUNT_TBOX");
-            LOAD_AMOUNT_TBOX.NumericTBOX.Text = button.Content.ToString();
+            NumericTextBox ntb = (NumericTextBox)this.FindElementsWithNameContains("AMOUNT_TBOX");
+            ntb.Text = (sender as Button).Content.ToString();
         }
 
         
-        private void minusButton_Click(object sender, RoutedEventArgs e)
-        {
-            //if (loadAmountTextBox.Text == "") loadAmountTextBox.Text = "0";
-            if (int.TryParse(LOAD_AMOUNT_TBOX.NumericTBOX.Text, out int load))
-                if (load > 4)
-                {
-                    LOAD_AMOUNT_TBOX.NumericTBOX.Text = (load - 5).ToString();
-                }
-        }
-
-        private void plusButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (LOAD_AMOUNT_TBOX.NumericTBOX.Text == "") LOAD_AMOUNT_TBOX.NumericTBOX.Text = "0";
-            LOAD_AMOUNT_TBOX.NumericTBOX.Text = (int.Parse(LOAD_AMOUNT_TBOX.NumericTBOX.Text) + 5).ToString();
-        }
+        
 
         
 

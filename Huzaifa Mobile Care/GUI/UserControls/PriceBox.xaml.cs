@@ -24,5 +24,20 @@ namespace Huzaifa_Mobile_Care.GUI.UserControls
         {
             InitializeComponent();
         }
+        private void minusButton_Click(object sender, RoutedEventArgs e)
+        {
+            //if (loadAmountTextBox.Text == "") loadAmountTextBox.Text = "0";
+            if (int.TryParse(LOAD_AMOUNT_TBOX.NumericTBOX.Text, out int load))
+                if (load > 4)
+                {
+                    LOAD_AMOUNT_TBOX.NumericTBOX.Text = (load - 5).ToString();
+                }
+        }
+
+        private void plusButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LOAD_AMOUNT_TBOX.NumericTBOX.Text == "") LOAD_AMOUNT_TBOX.NumericTBOX.Text = "0";
+            LOAD_AMOUNT_TBOX.NumericTBOX.Text = (int.Parse(LOAD_AMOUNT_TBOX.NumericTBOX.Text) + 5).ToString();
+        }
     }
 }
